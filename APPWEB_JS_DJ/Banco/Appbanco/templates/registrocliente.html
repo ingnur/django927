@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='{% static "css/styless.css"%}' type="text/css">
+    <link rel="stylesheet" href='{% static "css/stylesprin.css"%}' type="text/css">
+    <link rel="stylesheet" href='{% static "css/reset.css"%}' type="text/css">
+    
+    <title>Document</title>
+</head>
+<body>
+    <header class="contenedorheader" id="contenedorheader">
+        <div class="titulologo">
+         <h1 class="titulo">Cooperativa de Ahoro y Vivienda </h1>
+         <div class="logo"></div>
+       </div>
+ 
+         <nav class="nav">
+             <ul class="ul">
+                 <li><a href="/iniciar_sesion/">Ingresa</a></li>
+                 <li><a href="/registro/">Registrate</a></li>
+                 
+              
+ 
+             </ul>
+         </nav>
+     </header>
+
+    <a href="/frmconsultar">Consultar</a>
+    <a href="/">Inicio</a>
+    <h1>Insertar datos</h1>
+    <form id="frminsertar" method="POST" action="">
+        {% csrf_token %}
+        <label for="name">Documento:</label>
+        <input type="text" name="documento" id="documento">
+        <label for="description">Nombre:</label>
+        <input type="text" name="nombre" id="nombre">
+        <label for="description">Apellido:</label>
+        <input type="text" name="apellido" id="apellido">
+        <label for="description">Correo:</label>
+        <input type="text" name="correo" id="correo">
+        <label for="description">Celular:</label>
+        <input type="text" name="celular" id="celular">
+        <input type="submit" value="Guardar">
+    </form> 
+    <table id="tablaClientes">
+        
+      </table>
+    <h1>{{ mensaje }}</h1>
+    <script src="{% static 'js/clientes.js' %}"></script>
+    
+</body>
+</html>

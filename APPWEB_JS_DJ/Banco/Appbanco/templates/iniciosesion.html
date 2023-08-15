@@ -1,0 +1,38 @@
+<!-- inicio_sesion.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    
+    {% load static %}
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href='{% static "css/styless.css"%}' type="text/css">
+    <link rel="stylesheet" href='{% static "css/stylesprin.css"%}' type="text/css">
+    <link rel="stylesheet" href='{% static "css/reset.css"%}' type="text/css">
+</head>
+<body>
+    <header class="contenedorheader" id="contenedorheader">
+        <div class="titulologo">
+         <h1 class="titulo">Cooperativa de Ahoro y Vivienda </h1>
+         <div class="logo"></div>
+       </div>
+ 
+         <nav class="nav">
+             <ul class="ul">
+                 <li><a href="/iniciar_sesion/">Ingresa</a></li>
+                 <li><a href="/registro/">Registrate</a></li>
+                 
+              
+ 
+             </ul>
+         </nav>
+     </header>
+    <h1>Iniciar Sesión</h1>
+    <form method="post">
+       
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,93 @@
+{% load static %}
+<!-- registro.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de Registro</title>
+    <link rel="stylesheet" href='{% static "css/styless.css"%}' type="text/css">
+    <link rel="stylesheet" href='{% static "css/stylesprin.css"%}' type="text/css">
+    <link rel="stylesheet" href='{% static "css/reset.css"%}' type="text/css">
+</head>
+
+
+<body>
+    <header class="contenedorheader" id="contenedorheader">
+        <div class="titulologo">
+         <h1 class="titulo">Cooperativa de Ahoro y Vivienda </h1>
+         <div class="logo"></div>
+       </div>
+ 
+         <nav class="nav">
+             <ul class="ul">
+                 <li><a href="/iniciar_sesion/">Ingresa</a></li>
+                 <li><a href="/registro/">Registrate</a></li>
+                 
+              
+ 
+             </ul>
+         </nav>
+     </header>
+   
+    <fieldset class="fi">
+    <form class="frm" method="post" enctype="multipart/form-data" action="/registro/">
+        <legend>Registro datos de usuario</legend>
+        {% csrf_token %}
+       
+        {% if form.errors %}
+            <script>
+                var errorMessage = "{% for field in form %}{% for error in field.errors %}{{ error }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endfor %}";
+                alert("Errores en el formulario: " + errorMessage);
+            </script>
+        {% endif %}
+       <div><label for="">Documento</label> {{ form.documento }}
+       {% if form.errors.documento %}
+       
+       <div class="error">{{ form.errors.documento }}</div>
+       {% endif %}
+       </div>
+
+       <div><label for="">Nombre Usuario</label> {{ form.username }}
+       {% if form.errors.documento %}
+      
+       <div class="error">{{ form.errors.username }}</div>
+       {% endif %}
+       </div>
+       <div><label for="">Email</label>{{ form.email }} 
+       {% if form.errors.documento %}
+       
+       <div class="error">{{ form.errors.email }}</div>
+        {% endif %}
+       </div>
+
+       <div><label for="">Password</label> {{ form.password1 }}
+        {% if form.errors.password1 %}
+        <div class="error">{{ form.errors.password1 }}</div>
+        {% endif %}
+       </div> 
+       <div><label for="">Confirmar password</label>{{ form.password2 }}
+        {% if form.errors.password2 %}
+        <div class="error">{{ form.errors.password2 }}</div>
+        {% endif %}
+       </div>
+       <div><label for="">Rol</label>{{ form.rol }}
+        {% if form.errors.rol %}
+            <div class="error">{{ form.errors.rol }}</div>
+        {% endif %}
+    
+       </div>
+       <div><label for="">Imagen</label> {{ form.imagen }}</div>
+        
+        <!-- Mostrar campos de imagen y documento -->
+       
+    
+        <!-- Resto del formulario generado automáticamente -->
+       
+    
+        <button type="submit">Registrar</button>
+    </form>
+   
+    </fieldset>  
+
+</body>
+</html>

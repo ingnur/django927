@@ -1,0 +1,121 @@
+body{
+    background-color: 0;
+}
+h1{
+    color:red
+}
+
+.frm{
+    background-color: rgb(240, 244, 248);
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 40px;
+    
+}
+
+
+
+[type="text"]{
+    display: block;
+    width: 98%; 
+    height: 30px;
+    margin-bottom: 10px;
+    border: 0;
+    background-color: rgb(208, 232, 242);
+    /*border-bottom: 1px solid rgb(1, 1, 30);*/
+ }
+ 
+ 
+ [type="email"]{
+     display: block;
+     width: 98%;
+     height: 30px;
+     margin-bottom: 10px;
+     border: 0;
+     background-color: rgb(208, 232, 242);
+ }
+
+ [type="password"]{
+    display: block;
+    width: 98%;
+    height: 30px;
+    margin-bottom: 10px;
+    border: 0;
+    background-color: rgb(208, 232, 242);
+}
+
+label{
+    font-family: calibri;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+legend{
+    text-align: center;
+    color: rgb(2, 2, 49);
+    font-size: 35px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 30px;
+
+}
+
+.fi{
+    background-color:0;
+    
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0;
+    padding: 20px;
+}
+
+.error{
+    color:red;
+   
+    font-size: 12px;
+
+}
+
+.error ul{
+    
+    width: 100%;
+    display: inline;
+    background-color: 0;
+}
+
+.error ul li{
+    width: 100%;
+    background-color: aqua;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: auto;
+}
+
+.accordion-section {
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+}
+
+.accordion-header {
+    background-color: #eb1414;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.accordion-content {
+    display: none;
+    padding: 10px;
+}
+
+.accordion-content.active {
+    display: block;
+}

@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static 'js/gestincredito.js' %}"></script>
+    <script src="{% static 'js/consultar.js' %}"></script>
+    
+    <title>Document</title>
+</head>
+<body>
+    <h1>Insertar datos</h1>
+    <form id="frmcredito" method="POST" action="">
+        {% csrf_token %}
+        <label for="name">id:</label>
+        <input type="text" name="id" id="">id
+        <label for="description">monto:</label>
+        <input type="text" name="monto" id="monto">
+        <label for="description">Plazo:</label>
+        <input type="text" name="plazo" id="plazo">
+        <label for="description">documentocliente:</label>
+        <input type="text" name="doccli" id="doccli">
+        <label for="description">Codigo:</label>
+        <input type="text" name="codcre" id="codcre">
+        <input type="submit" value="Guardar">
+    </form> 
+    <table id="tablaClientes">
+        
+      </table>
+    <h1>{{ mensaje }}</h1>
+   
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Clientes</h1>
+</body>
+<table>
+<thead>
+    <tr>
+        <th>Clientes</th>
+    </tr>
+</thead>
+<tbody>
+ {% for i  in datoscli%}
+    <tr>
+
+        
+        <td>{{i.documento}}</td>
+        <td>{{i.nombre}}</td>
+        <td>{{i.apellido}}</td>
+        <td>{{i.correo}}</td>
+        <td>{{i.celular}}</td>
+    </tr>
+    {% endfor%}
+</tbody>
+
+</table>
+</html>

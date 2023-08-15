@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='{% static "css/reset.css"%}' type="text/css">
+    <link rel="stylesheet" href='{% static "css/styless.css"%}' type="text/css">
+    <link rel="stylesheet" href='{% static "css/stylesprin.css"%}' type="text/css">
+    
+   
+    <title>Document</title>
+</head>
+<body>
+  <header class="contenedorheader" id="contenedorheader">
+    <div class="titulologo">
+     <h1 class="titulo">Cooperativa de Ahoro y Vivienda </h1>
+     <div class="logo"></div>
+   </div>
+
+     <nav class="nav">
+         <ul class="ul">
+             <li><a href="/iniciar_sesion/">Ingresa</a></li>
+             <li><a href="/registro/">Registrate</a></li>
+             
+          
+
+         </ul>
+     </nav>
+ </header>
+
+
+  <h1>Clientes</h1>
+    <table id="tablaClientes">
+        
+      </table>
+      <script src="{% static 'js/consultar.js' %}"></script>
+</body>
+</html>

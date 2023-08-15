@@ -1,0 +1,72 @@
+<!-- perfil_cliente.html -->
+<!DOCTYPE html>
+<html>
+<head>
+        {% load static %}
+    <title>Perfil del Cliente</title>
+   
+    <link rel="stylesheet" href='{% static "css/styless.css"%}' type="text/css">
+    <link rel="stylesheet" href='{% static "css/stylesprin.css"%}' type="text/css">
+    <link rel="stylesheet" href='{% static "css/reset.css"%}' type="text/css">
+</head>
+
+<body>
+     
+    <header class="contenedorheader" id="contenedorheader">
+        <div class="titulologo">
+         <h1 class="titulo">Cooperativa de Ahoro y Vivienda </h1>
+         <div class="logo"></div>
+       </div>
+ 
+         <nav class="nav">
+             <ul class="ul">
+                 <li><a href="/iniciar_sesion/">Ingresa</a></li>
+                 <li><a href="/registro/">Registrate</a></li>
+                 
+              
+ 
+             </ul>
+         </nav>
+     </header>
+     <div class="accordion">
+        <div class="accordion-section">
+            <div class="accordion-header">
+                Sección 1
+            </div>
+            <div class="accordion-content">
+                Contenido de la sección 1
+            </div>
+        </div>
+    </div>
+   
+    {% if form %}
+        <h1>Información del Cliente</h1>
+           
+        <form method="POST">
+            {% csrf_token %}
+                     
+            <div><label for="">Nombre Usuario</label> {{ form.nombre }}</div>
+            <div><label for="">Apellido</label>{{ form.apellido }}</div> 
+            <div><label for="">Email</label> {{ form.correo }}</div> 
+            <div><label for="">Celular</label>{{ form.celular }}</div>
+        
+            <button type="submit" name="editar" value="editar">Guardar cambios</button>
+        </form>
+        <div>Datos de Usuario</div>
+        <div>Nombre de usuario: {{ usuario.username }}</div>
+        <div>Rol: {{ usuario.rol }}</div>
+       
+        {% if usuario.imagen %}
+          <img src="{{ usuario.imagen.url }}" alt="Imagen de usuario">
+        {% endif %}
+    
+    {% else %}
+        <div>No se encontró información para el cliente solicitado.</div>
+    {% endif %}
+
+
+   
+    <script src="{% static 'js/dis.js' %}"></script>
+</body>
+
+</html>

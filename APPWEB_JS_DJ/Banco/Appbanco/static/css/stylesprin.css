@@ -1,0 +1,125 @@
+@font-face{
+    src: url("../fuentes/ShadowsIntoLight-Regular.ttf");
+    font-family: miletra;
+}
+@font-face{
+    src: url("../fuentes/Combo-Regular.ttf");
+    font-family: mia;
+}
+
+body{
+background-image: url('../imagenes/plant-g134a9d4a9_1920.jpg');
+background-size: cover;
+}
+
+.contenedorheader{
+    background: rgb(2,4,96);
+    background: linear-gradient(355deg, rgba(2,4,96,1) 7%, rgba(3,5,80,1) 63%, rgba(0,10,57,1) 90%);
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+.titulologo{
+    background-color:0;
+    width:60% ;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav{
+    background-color: 0;
+    width: 60%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding:5px
+   
+    
+}
+.nav ul{
+    background-color: yellow;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    border-radius: 5px;
+    
+}
+li{
+   display: inline;  
+   background-color: rgba(255,255,255,0.4); 
+   padding:5px;
+   width:140px;
+   margin-right: 5px;
+   text-align: center;
+   justify-content: center;
+   border-radius: 5px;
+}
+
+a{
+    text-decoration: none;
+    color:#04e9f1;
+    font-size: 18px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   
+  
+}
+
+.titulo{
+    background-color:0;
+    color:#fff;
+    font-size: 36px;
+    font-weight: bold;
+    margin-left: 10px;
+    font-family: calibri;
+    text-shadow: 1px 4px 2px black;
+   
+}
+
+.logo{
+    background-image: url('/media/img/logo.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    margin-right: 40px;
+
+}
+
+.art1{
+    background: rgb(207,245,237);
+    background: linear-gradient(355deg, rgba(207,245,237,1) 7%, rgba(140,252,255,1) 63%, rgba(146,222,215,1) 90%);
+    width:20%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    font-family: miletra;
+    border-radius: 20px 10px 5px 0;
+    box-shadow: 1px 1px 2px rgb(30, 30, 187);
+
+}
+
+.sectionuno{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+h2{
+    font-size: 25;
+    font-weight: bold;
+    font-family: mia;
+    margin-bottom: 20px;
+}
+p{
+  font-size:20px ;  
+}
+
+#article4{
+    background: rgb(207,245,237);
+background: linear-gradient(355deg, rgba(207,245,237,1) 7%, rgba(140,252,255,1) 63%, rgba(146,222,215,1) 90%);
+}
