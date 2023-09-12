@@ -49,16 +49,17 @@ class ListaCliente(View):
         return JsonResponse(datos_clientes, safe=False)
 
 class Insertarcliente(View):
-    
+    print("entro")
+   
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args: Any, **kwargs):
         return super().dispatch(request, *args, **kwargs)
     
 
-    @method_decorator(login_required)
+    #@method_decorator(login_required)
     def post(self, request):
          
-        
+        print("entrodos")
         try:
             # Decodificar los datos JSON recibidos
             datos = json.loads(request.body.decode('utf-8'))
@@ -71,7 +72,9 @@ class Insertarcliente(View):
         apellido = datos.get('apellido')
         correo = datos.get('correo')
         celular = datos.get('celular')
+        Cliente.objects.create(documento=documento, nombre=nombre, apellido=apellido, correo=correo, celular=celular)
         print("ESTE ES EL DOCUMENTO",documento)
+
         if Cliente.objects.filter(documento=documento).exists():
             return JsonResponse({'mensaje': 'El documento ya existe en la base de datos'})
 
@@ -94,7 +97,7 @@ class Insertarcliente(View):
       
         #Cliente.objects.create(documento=datos['documento'],nombre=datos['nombre'],apellido=datos['apellido'],correo=datos['correo'],celular=datos['celular'])
         #cli.save()
-        #return JsonResponse({'mensaje': 'Datos insertados correctamente'})
+        return JsonResponse({'mensaje': 'Datos insertados correctamente'})
         #return render(request, 'registrocliente.html', {'mensaje': 'Datos guardados'})'''
        
     

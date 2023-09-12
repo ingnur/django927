@@ -6,6 +6,9 @@ from . import views,viewscre,viewsLogin
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 
 urlpatterns=[
     path('cliente',ListaCliente.as_view(), name='Clientes'),
@@ -25,7 +28,11 @@ urlpatterns=[
     path('frmdatcliente/',viewsLogin.frmdatcliente, name="frmdatcliente" ),
     path('frmempleado/',viewsLogin.frmempleado, name="frmempleado" ),
     path('',views.frmprincipal, name="frmprincipal" ),
-    path('perfil-cliente/', PerfilClienteView.as_view(), name='perfil_cliente'),
+  
+    path('perfil_cliente', PerfilClienteView.as_view(), name='perfil_cliente'),
+    #path('obtener_token_csrf/', viewsLogin.obtener_token_csrf, name='obtener_token_csrf'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Ruta para obtener el token JWT
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Ruta para refrescar el token JWT
 
    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

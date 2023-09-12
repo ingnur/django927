@@ -15,6 +15,32 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+from django.middleware.csrf import get_token
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, authenticate
+from django.http import JsonResponse
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from rest_framework_simplejwt.tokens import RefreshToken
+import json
+from rest_framework_simplejwt.views import TokenObtainPairView
+from django.http import JsonResponse, HttpResponseBadRequest
+
+'''def obtener_token_csrf(request):
+    csrf_token = get_token(request)
+    return JsonResponse({'csrf_token': csrf_token})'''
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import JsonResponse
+import jwt
+from datetime import datetime, timedelta
+from django.conf import settings
+
+
+
 
 '''class RegistrarUsuarioView(View):
     def get(self, request):#esto es para poder ver el formulario de registro
@@ -124,6 +150,7 @@ class RegistrarUsuarioView(View):
             if 'application/json' in request.headers.get('content-type', ''):
                 print("en el json")
                 self.handle_flutter_data(request)
+                print("ESTA EN FLUTTER")
             else:
                 print("Esta en django")
                 form = UserForm(request.POST)
@@ -183,110 +210,104 @@ class RegistrarUsuarioView(View):
 
 
 
-'''class IniciarSesionView(View):
-    def get(self, request):
-        form = LoginForm()
-        #print(form)
-        return render(request, 'iniciosesion.html', {'form': form})
-
-    def post(self, request):
-        form = LoginForm(data=request.POST)
-
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-
-            # Autenticar al usuario solo con el username y la password
-            datt = authenticate(username=username, password=password)
-
-            if datt is not None:
-                login(request, datt)
-
-                if datt.rol == 'Cliente':
-                    try:
-                        # Obtener el campo documento del modelo Cliente
-                        documento = datt.documento_id
-                        print("DDDDDDDDDDDD",documento)
-
-                        # Consultar los datos del cliente utilizando el campo documento
-                        cliente = Cliente.objects.get(documento=documento)
-                        print("******", request.method)
-                        print(request.POST)
-
-                        if request.method == 'POST' and 'editar' in request.POST:
-                                    
-                           # print("Entrando a Clientes POST")
-                            # Procesar el formulario si se envió con el botón "Guardar cambios"
-                         form = UserForm(request.POST)
-                         if form.is_valid():
-                            cliente_form = ClienteForm(request.POST, instance=cliente)
-                            if cliente_form.is_valid():
-                                print("EN EL IF DE LA VALIDACIO")
-                                cliente_form.save()
-                                messages.success(request, 'Cambios guardados correctamente.')
-                                return redirect('cliente')
-                            else:
-                                print("error")
-                                messages.error(request, 'Por favor, corrige los errores del formulario.')
-                        else:
-                            cliente_form = ClienteForm(instance=cliente)
-                        return render(request, 'cliente.html', {'cliente': cliente, 'form': cliente_form})
-                    except Cliente.DoesNotExist:
-                        messages.error(request, 'No se encontraron los datos del cliente.')
-                else:
-                    return redirect('frmempleado')
-
-            form.add_error(None, 'Credenciales inválidas. Por favor, intenta nuevamente.')
-
-        return render(request, 'iniciosesion.html', {'form': form})'''
-
-
 
 class IniciarSesionView(View):
     def get(self, request):
         form = LoginForm()
         return render(request, 'iniciosesion.html', {'form': form})
 
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if request.method.lower() == "get":
+            return self.get(request, *args, **kwargs)
+        elif request.method.lower() == "post":
+            return self.post(request, *args, **kwargs)
+
     def post(self, request):
-        form = LoginForm(data=request.POST)
+        accept_header = request.META.get('HTTP_ACCEPT', '')
+        print("**********")
+        if 'application/json' in accept_header:
+            print("en json")
+            try:
+                json_data = json.loads(request.body)
+                username = json_data.get('username')
+                password = json_data.get('password')
+                user = authenticate(username=username, password=password)
 
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+                if user is not None:
+                    print("json validacion")
+                    login(request, user)
+                    if user.rol == 'Cliente' or user.rol == 'cliente':
+                        print("cccccccc")
+                        response_data = {
+                            'message': 'Inicio de sesión exitoso',
+                            'user_id': user.documento_id,
+                            'username': user.username,
+                            'rol': user.rol,
+                        }
+                        return JsonResponse(response_data)
+                    else:return JsonResponse({'error': 'Es tabajador.'}, status=400)
+                else: return JsonResponse({'error': 'Credenciales inválidas. Por favor, intenta nuevamente.'}, status=400)
+                      
+            except json.JSONDecodeError:
+                return HttpResponseBadRequest('Invalid JSON data')
+        else:
+            form = LoginForm(data=request.POST)
 
-            if user is not None:
-                login(request, user)
-                if user.rol == 'Cliente' or user.rol=='cliente':
-                    return redirect('perfil_cliente')  
+            if form.is_valid():
+                print("wwwwwwww")
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+
+                if user is not None:
+                    login(request, user)
+                    if user.rol == 'Cliente' or user.rol == 'cliente':
+                        print("cccccccc")
+                        return redirect('perfil_cliente')
+                    else:
+                        return JsonResponse({'message': 'Inicio de sesión exitoso para otro tipo de usuario'})
                 else:
-                    return redirect('frmempleado')
+                    return JsonResponse({'error': 'Credenciales inválidas. Por favor, intenta nuevamente.'}, status=400)
             else:
-                form.add_error(None, 'Credenciales inválidas. Por favor, intenta nuevamente.')
-
-        return render(request, 'iniciosesion.html', {'form': form})
+                return JsonResponse({'error': 'Datos de formulario no válidos'}, status=400)
 
 
-@method_decorator(login_required(login_url='login'), name='dispatch')
 class PerfilClienteView(View):
     template_name = 'cliente.html'
 
+    def generate_token(self, user):
+        token_options = {
+            'iat': datetime.utcnow(),
+            'exp': datetime.utcnow() + timedelta(hours=1),  # Sepuede cambiar
+                        'user_id': user.documento_id,  # Agrega la información que desees al token
+        }
+        token = jwt.encode(token_options, settings.SECRET_KEY, algorithm='HS256')
+        return token
+
+    @method_decorator(login_required(login_url='iniciar_sesion'))
     def get(self, request):
         try:
-            
-            #print("ssssssssssssssss",request.user.documento_id)
             cliente = Cliente.objects.get(documento=request.user.documento_id)
             usuario = request.user
-            print(usuario.imagen)
-            #print("Datos del cliente:", cliente.documento, cliente.nombre, cliente.apellido, cliente.correo, cliente.celular)
+            cliente_data = {
+                'nombre': cliente.nombre,
+                'apellido': cliente.apellido,
+                'correo': cliente.correo,
+                'celular': cliente.celular,
+            }
+
+            accept_header = request.META.get('HTTP_ACCEPT', '')
+            if 'application/json' in accept_header:
+                token = self.generate_token(request.user)
+                return JsonResponse({'token': token, **cliente_data})
+            else:
+                form = ClienteForm(instance=cliente)
+                return render(request, self.template_name, {'form': form, 'cliente': cliente, 'usuario': usuario})
         except Cliente.DoesNotExist:
-            messages.error(request, 'No se encontraron los datos del cliente.')
-            return redirect('iniciar_sesion')
+            return JsonResponse({'error': 'No se encontraron los datos del cliente.'}, status=400)
 
-        form = ClienteForm(instance=cliente)
-       # print("aaaaaaaaaaa",form.nombre)
-        return render(request, self.template_name, {'form': form, 'cliente': cliente,'usuario': usuario})
-
+    @method_decorator(login_required(login_url='iniciar_sesion'))
     def post(self, request):
         try:
             cliente = Cliente.objects.get(documento=request.user.documento_id)
@@ -298,13 +319,22 @@ class PerfilClienteView(View):
 
         if form.is_valid():
             form.save()
-
             messages.success(request, 'Cambios guardados correctamente.')
-            return redirect('perfil_cliente')
+            accept_header = request.META.get('HTTP_ACCEPT', '')
+            if 'application/json' in accept_header:
+                cliente_data = {
+                    'nombre': cliente.nombre,
+                    'apellido': cliente.apellido,
+                    'correo': cliente.correo,
+                    'celular': cliente.celular,
+                }
+                return JsonResponse(cliente_data)
+            else:
+                return redirect('perfil_cliente')
 
         return render(request, self.template_name, {'form': form, 'cliente': cliente})
 
-
+@login_required
 def frmdatcliente(request):
      return render(request,"cliente.html")
 

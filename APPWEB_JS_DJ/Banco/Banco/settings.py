@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import datetime 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,21 +41,44 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Appbanco',
     'corsheaders',
+    'rest_framework',
+    
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+    #'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    
+  
   
     
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    # ...
+    'USER_ID_FIELD': 'documento_id',  # Nombre del campo de identificación en tu modelo de usuario personalizado
+    # ...
+}
+
+
+
+#SESSION_COOKIE_SAMESITE = 'None'
+#SESSION_COOKIE_SECURE = True
+
 
 
 
@@ -63,13 +87,17 @@ CORS_ALLOWED_ORIGINS = [
 ]
 ALLOWED_HOSTS = [ '*' ]
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-)
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Asegúrate de tener esto
+]
 
 # ponemos el tiempo de sesion en minutos
 LOGIN_URL = 'iniciar_sesion'
-SESSION_COOKIE_AGE = 60
+SECRET_KEY = 'qwerty123***'
+#SESSION_COOKIE_AGE = 3000
+#LOGIN_REDIRECT_URL = 'perfil_cliente'
 
 ROOT_URLCONF = 'Banco.urls'
 
@@ -157,3 +185,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "Appbanco.User" 
 LANGUAGE_CODE = 'es'
+
